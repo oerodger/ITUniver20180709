@@ -3,6 +3,7 @@ using Autofac.Integration.Mvc;
 using DocflowApp.App_Start;
 using DocflowApp.Controllers;
 using DocflowApp.Models;
+using DocflowApp.Models.Repositories;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Owin;
@@ -46,6 +47,7 @@ namespace DocflowApp.App_Start
                         .ConnectionString(connectionString.ConnectionString)
                         .Dialect<MsSql2012Dialect>())
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
+                    .ExposeConfiguration(c => { SchemaMetadataUpdater.QuoteTableAndColumns(c); })
                     .CurrentSessionContext("call");
                 var conf = cfg.BuildConfiguration();
                 var schemaExport = new SchemaUpdate(conf);
@@ -54,6 +56,18 @@ namespace DocflowApp.App_Start
             }).As<ISessionFactory>().SingleInstance();
             builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>().InstancePerRequest();
+
+            var modelsAssembly = Assembly.GetAssembly(typeof(User));
+            foreach (var type in modelsAssembly.GetTypes())
+            {
+                var attr = type.GetCustomAttribute<RepositoryAttribute>();
+                if (attr == null)
+                {
+                    continue;
+                }
+                builder.RegisterType(type);
+            }
+
             builder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));
             builder.RegisterModule(new AutofacWebTypesModule());
             var container = builder.Build();
