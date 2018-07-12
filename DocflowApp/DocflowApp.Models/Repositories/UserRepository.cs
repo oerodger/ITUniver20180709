@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DocflowApp.Models.Filters;
+using Microsoft.AspNet.Identity;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -30,9 +33,36 @@ namespace DocflowApp.Models.Repositories
                 {
                     crit.Add(Restrictions.Like("FIO", filter.FIO, MatchMode.Anywhere));
                 }
+                if (filter.Date != null)
+                {
+                    if (filter.Date.From.HasValue)
+                    {
+                        crit.Add(Restrictions.Ge("WorkStartDate", filter.Date.From.Value));
+                    }
+                    if (filter.Date.To.HasValue)
+                    {
+                        crit.Add(Restrictions.Le("WorkStartDate", filter.Date.To.Value));
+                    }
+                }
             }
             SetupFetchOptions(crit, options);
             return crit.List<User>();
+        }
+
+        public User GetCurrentUser(IPrincipal user = null)
+        {
+            user = user ?? HttpContext.Current.User;
+            if (user == null || user.Identity == null)
+            {
+                return null;
+            }
+            var currentUserId = user.Identity.GetUserId();
+            long userId;
+            if (string.IsNullOrEmpty(currentUserId) || !long.TryParse(currentUserId, out userId))
+            {
+                return null;
+            }
+            return Load(userId);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace DocflowApp.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private UserRepository userRepository;

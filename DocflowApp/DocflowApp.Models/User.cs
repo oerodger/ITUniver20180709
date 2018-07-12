@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DocflowApp.Models
 {
-    public class User
+    public class User: IUser<long>
     {
         public virtual long Id { get; set; }
 
@@ -16,5 +17,6 @@ namespace DocflowApp.Models
 
         public virtual string FIO { get; set; }
         
+        public virtual DateTime? WorkStartDate { get; set; }
     }
 }

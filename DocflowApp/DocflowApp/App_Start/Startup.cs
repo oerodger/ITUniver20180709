@@ -20,6 +20,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.AspNet.Identity;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace DocflowApp.App_Start
@@ -74,6 +77,17 @@ namespace DocflowApp.App_Start
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);
+
+            app.CreatePerOwinContext(() => 
+                new UserManager(new IdentityStore(DependencyResolver.Current.GetServices<ISession>().FirstOrDefault())));
+            app.CreatePerOwinContext<SignInManager>((options, context) =>
+                new SignInManager(context.GetUserManager<UserManager>(), context.Authentication));
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider()
+            });
         }
     }
 }

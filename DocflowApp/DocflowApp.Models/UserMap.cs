@@ -13,8 +13,9 @@ namespace DocflowApp.Models
         {
             Id(u => u.Id).GeneratedBy.Identity();
             Map(u => u.UserName).Length(30);
-            Map(u => u.Password).Length(30);
+            Map(u => u.Password);
             Map(u => u.FIO);
+            Map(u => u.WorkStartDate);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace DocflowApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public HomeController(ISession session)

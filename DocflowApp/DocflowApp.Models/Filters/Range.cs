@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace DocflowApp.Models.Filters
 {
-    public class UserFilter
+    public abstract class Range<T>
     {
-        public string UserName { get; set; }
+        public T From { get; set; }
 
-        public string FIO { get; set; }
-
-        public DateRange Date { get; set; }
-
+        public T To { get; set; }
     }
 }
