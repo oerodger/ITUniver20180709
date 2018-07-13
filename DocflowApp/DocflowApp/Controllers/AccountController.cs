@@ -29,7 +29,7 @@ namespace DocflowApp.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel { Date = DateTime.Now });
         }
 
         [HttpPost]

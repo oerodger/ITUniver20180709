@@ -20,9 +20,8 @@ namespace DocflowApp.Models.Repositories
         {
         }
 
-        public IList<User> Find(UserFilter filter, FetchOptions options = null)
+        private void SetupFilter(UserFilter filter, ICriteria crit)
         {
-            var crit = session.CreateCriteria<User>();
             if (filter != null)
             {
                 if (!string.IsNullOrEmpty(filter.UserName))
@@ -45,8 +44,22 @@ namespace DocflowApp.Models.Repositories
                     }
                 }
             }
+        }
+
+        public IList<User> Find(UserFilter filter, FetchOptions options = null)
+        {
+            var crit = session.CreateCriteria<User>();
+            SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             return crit.List<User>();
+        }
+
+        public long Count(UserFilter filter)
+        {
+            var crit = session.CreateCriteria<User>();
+            SetupFilter(filter, crit);
+            crit.SetProjection(Projections.Count("Id"));
+            return Convert.ToInt64(crit.UniqueResult());
         }
 
         public User GetCurrentUser(IPrincipal user = null)

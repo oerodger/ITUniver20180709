@@ -1,0 +1,3 @@
+﻿@model DateTime?
+
+@(Model.HasValue ? Model.Value.ToString("d") : "Дата не задана")

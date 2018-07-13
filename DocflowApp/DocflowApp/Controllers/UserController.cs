@@ -1,4 +1,6 @@
-﻿using DocflowApp.Models.Repositories;
+﻿using DocflowApp.Models;
+using DocflowApp.Models.Repositories;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +10,39 @@ using System.Web.Mvc;
 namespace DocflowApp.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        private UserRepository userRepository;
-
-        public UserController(UserRepository userRepository)
+        public UserController(UserRepository userRepository): 
+            base(userRepository)
         {
             this.userRepository = userRepository;
         }
 
         // GET: User
         public ActionResult Index()
-        {            
-            return View();
+        {
+            var users = userRepository.FindAll();
+            return View(users);
+        }
+
+        public ActionResult Create()
+        {
+            var model = new UserViewModel { Entity = new User() };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Create(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = UserManager.CreateAsync(model.Entity, model.Password);
+                if (res.Result == IdentityResult.Success)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(model);
         }
     }
 }

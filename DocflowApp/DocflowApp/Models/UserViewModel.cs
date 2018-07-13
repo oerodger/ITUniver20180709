@@ -6,17 +6,17 @@ using System.Web;
 
 namespace DocflowApp.Models
 {
-    public class LoginViewModel
+    public class UserViewModel: EntityViewModel<User>
     {
-        [Required]
-        [Display(Name = "Логин")]
-        public string UserName { get; set; }
-
-        [Required]
         [DataType(DataType.Password)]
+        [Required]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        public DateTime? Date { get; set; }
+        [DataType(DataType.Password)]
+        [Required]
+        [Compare("Password")]
+        [Display(Name = "Подтвердите пароль")]
+        public string ConfirmPassword { get; set; }
     }
 }
