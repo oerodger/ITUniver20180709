@@ -67,9 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FetchOptions.cs" />
+    <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\DateRange.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
+    <Compile Include="Repositories\InFastSearchAttribute.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAttribute.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

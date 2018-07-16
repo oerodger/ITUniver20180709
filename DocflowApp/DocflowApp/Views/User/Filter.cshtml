@@ -1,0 +1,66 @@
+﻿@model DocflowApp.Models.Filters.UserFilter
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+
+    <div class="form-group">       
+        <div class="col-md-10">
+            <table style="width: 100%;">
+                <tr>
+                    <td> 
+                        @Html.EditorFor(model => model.SearchString, new { htmlAttributes = new { @class = "form-control", style = "max-width:none;" } })
+                    </td>
+                    <td style="width: 50px;">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left: 0px;">
+                            <input type="submit" value="Найти" class="btn btn-default" />
+                        </div>                        
+                    </td>
+                    <td style="width: 150px;">
+                        <div>
+                            <a href="#" onclick="toggleFields()">Расширенный поиск</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>           
+        </div>
+    </div>
+    <div id="ExtentedUserFilterFields" style="display: none;">
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FIO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FIO, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Найти" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+   
+</div>
+}
+
+<script type="text/javascript">
+    function toggleFields() {
+        if ($('#ExtentedUserFilterFields').is(':visible')) {
+            $('#ExtentedUserFilterFields').hide('slow');
+        }
+        else {
+            $('#ExtentedUserFilterFields').show('slow');
+        }
+    }
+</script>
+
+

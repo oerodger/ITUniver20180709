@@ -13,15 +13,16 @@ using NHibernate.Criterion;
 namespace DocflowApp.Models.Repositories
 {
     [Repository]
-    public class UserRepository : Repository<User>
+    public class UserRepository : Repository<User, UserFilter>
     {
         public UserRepository(ISession session) : 
             base(session)
         {
         }
 
-        private void SetupFilter(UserFilter filter, ICriteria crit)
+        public override void SetupFilter(UserFilter filter, ICriteria crit)
         {
+            base.SetupFilter(filter, crit);
             if (filter != null)
             {
                 if (!string.IsNullOrEmpty(filter.UserName))

@@ -1,4 +1,5 @@
 ﻿using DocflowApp.Models;
+using DocflowApp.Models.Filters;
 using DocflowApp.Models.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
@@ -19,9 +20,9 @@ namespace DocflowApp.Controllers
         }
 
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(UserFilter userFilter, FetchOptions options)
         {
-            var users = userRepository.FindAll();
+            var users = userRepository.Find(userFilter, options);
             return View(users);
         }
 
