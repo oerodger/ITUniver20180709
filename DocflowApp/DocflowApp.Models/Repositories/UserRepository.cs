@@ -76,7 +76,7 @@ namespace DocflowApp.Models.Repositories
             {
                 return null;
             }
-            return Load(userId);
+            return session.Get<User>(userId);
         }
     }
 }

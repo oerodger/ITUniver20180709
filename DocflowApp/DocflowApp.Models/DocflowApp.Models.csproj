@@ -71,6 +71,9 @@
     <Compile Include="Filters\DateRange.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
+    <Compile Include="Listeners\CreationDateAttribute.cs" />
+    <Compile Include="Listeners\CreationDateListener.cs" />
+    <Compile Include="Listeners\ListenerAttribute.cs" />
     <Compile Include="Repositories\InFastSearchAttribute.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAttribute.cs" />
@@ -82,5 +85,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

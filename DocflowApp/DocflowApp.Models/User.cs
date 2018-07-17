@@ -1,4 +1,5 @@
-﻿using DocflowApp.Models.Repositories;
+﻿using DocflowApp.Models.Listeners;
+using DocflowApp.Models.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace DocflowApp.Models
         public virtual string FIO { get; set; }
 
         [Display(Name = "Дата начала работы")]
+        [CreationDate]
         public virtual DateTime? WorkStartDate { get; set; }
     }
 }

@@ -23,6 +23,8 @@ using System.Web.Routing;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity;
+using DocflowApp.Models.Listeners;
+using NHibernate.Event;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace DocflowApp.App_Start
@@ -43,6 +45,24 @@ namespace DocflowApp.App_Start
             }
 
             var builder = new ContainerBuilder();
+
+            var modelsAssembly = Assembly.GetAssembly(typeof(User));
+
+            foreach (var type in modelsAssembly.GetTypes())
+            {
+                var attr = type.GetCustomAttribute<ListenerAttribute>();
+                if (attr == null)
+                {
+                    continue;
+                }
+                var interfaces = type.GetInterfaces();
+                var b = builder.RegisterType(type);
+                foreach (var inter in interfaces)
+                {
+                    b = b.As(inter);
+                }
+            }
+
             builder.Register(x =>
             {
                 var cfg = Fluently.Configure()
@@ -50,7 +70,11 @@ namespace DocflowApp.App_Start
                         .ConnectionString(connectionString.ConnectionString)
                         .Dialect<MsSql2012Dialect>())
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
-                    .ExposeConfiguration(c => { SchemaMetadataUpdater.QuoteTableAndColumns(c); })
+                    .ExposeConfiguration(c => {
+                        SchemaMetadataUpdater.QuoteTableAndColumns(c);
+                        c.EventListeners.PreInsertEventListeners = x.Resolve<IPreInsertEventListener[]>();
+                        c.EventListeners.PreUpdateEventListeners = x.Resolve<IPreUpdateEventListener[]>();
+                    })
                     .CurrentSessionContext("call");
                 var conf = cfg.BuildConfiguration();
                 var schemaExport = new SchemaUpdate(conf);
@@ -59,8 +83,9 @@ namespace DocflowApp.App_Start
             }).As<ISessionFactory>().SingleInstance();
             builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>().InstancePerRequest();
+            builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
+                .As<ISession>().InstancePerDependency();
 
-            var modelsAssembly = Assembly.GetAssembly(typeof(User));
             foreach (var type in modelsAssembly.GetTypes())
             {
                 var attr = type.GetCustomAttribute<RepositoryAttribute>();
