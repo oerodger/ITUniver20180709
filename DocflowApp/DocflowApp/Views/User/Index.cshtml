@@ -24,6 +24,9 @@
         <th>
             @Html.SortLink("Дата приема", "WorkStartDate", "Index", "User", null)
         </th>
+        <th>
+            Автор
+        </th>
         <th></th>
     </tr>
 
@@ -37,6 +40,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.WorkStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreationAuthor)
         </td>
         <td>
             @Html.ActionLink("Изменить", "Edit", new { id=item.Id }) |         

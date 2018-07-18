@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using DocflowApp.Models.Filters;
@@ -65,7 +66,7 @@ namespace DocflowApp.Models.Repositories
 
         public User GetCurrentUser(IPrincipal user = null)
         {
-            user = user ?? HttpContext.Current.User;
+            user = user ?? (HttpContext.Current != null ? HttpContext.Current.User : Thread.CurrentPrincipal);
             if (user == null || user.Identity == null)
             {
                 return null;

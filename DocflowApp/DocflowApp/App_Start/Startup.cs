@@ -25,6 +25,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity;
 using DocflowApp.Models.Listeners;
 using NHibernate.Event;
+using DocflowApp.Models.Autofac;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace DocflowApp.App_Start
@@ -82,9 +83,9 @@ namespace DocflowApp.App_Start
                 return cfg.BuildSessionFactory();
             }).As<ISessionFactory>().SingleInstance();
             builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
-                .As<ISession>().InstancePerRequest();
-            builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
-                .As<ISession>().InstancePerDependency();
+                .As<ISession>()
+                .InstancePerRequest()
+                .InstancePerDependency();
 
             foreach (var type in modelsAssembly.GetTypes())
             {
@@ -100,6 +101,7 @@ namespace DocflowApp.App_Start
             builder.RegisterModule(new AutofacWebTypesModule());
             var container = builder.Build();
 
+            Locator.SetImpl(new AutofacLocatorImpl(container));
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);
 

@@ -16,6 +16,7 @@ namespace DocflowApp.Models
             Map(u => u.Password);
             Map(u => u.FIO);
             Map(u => u.WorkStartDate);
+            References(u => u.CreationAuthor);
         }
     }
 }
