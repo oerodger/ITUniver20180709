@@ -17,6 +17,7 @@ namespace DocflowApp.Models
             Map(u => u.FIO);
             Map(u => u.WorkStartDate);
             References(u => u.CreationAuthor);
+            References(u => u.Avatar).Cascade.SaveUpdate();
         }
     }
 }

@@ -72,8 +72,14 @@
     <Compile Include="Autofac\AutofacLocatorImpl.cs" />
     <Compile Include="Autofac\ILocatorImpl.cs" />
     <Compile Include="Autofac\Locator.cs" />
+    <Compile Include="BinaryFileContent.cs" />
+    <Compile Include="BinaryFileContentMap.cs" />
+    <Compile Include="BinaryFileMap.cs" />
     <Compile Include="FetchOptions.cs" />
+    <Compile Include="BinaryFile.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
+    <Compile Include="Filters\BinaryFileContentFilter.cs" />
+    <Compile Include="Filters\BinaryFileFilter.cs" />
     <Compile Include="Filters\DateRange.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
@@ -82,6 +88,8 @@
     <Compile Include="Listeners\CreationAuthorListener.cs" />
     <Compile Include="Listeners\CreationDateListener.cs" />
     <Compile Include="Listeners\ListenerAttribute.cs" />
+    <Compile Include="Repositories\BinaryFileContentRepository.cs" />
+    <Compile Include="Repositories\BinaryFileRepository.cs" />
     <Compile Include="Repositories\InFastSearchAttribute.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAttribute.cs" />

@@ -26,6 +26,7 @@ using Microsoft.AspNet.Identity;
 using DocflowApp.Models.Listeners;
 using NHibernate.Event;
 using DocflowApp.Models.Autofac;
+using DocflowApp.Files;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace DocflowApp.App_Start
@@ -38,7 +39,8 @@ namespace DocflowApp.App_Start
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            ModelBinders.Binders.Add(typeof(BinaryFile), new BinaryFileModelBinder());
+         
             var connectionString = ConfigurationManager.ConnectionStrings["MSSQL"];
             if (connectionString == null)
             {
@@ -95,6 +97,16 @@ namespace DocflowApp.App_Start
                     continue;
                 }
                 builder.RegisterType(type);
+            }
+
+            var fileProviderInterfaceName = typeof(IFileProvider).FullName;
+            foreach (var type in Assembly.GetAssembly(typeof(Startup)).GetTypes())
+            {
+                var inter = type.GetInterface(fileProviderInterfaceName);
+                if (inter != null)
+                {
+                    builder.RegisterType(type).As<IFileProvider>();
+                }
             }
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));

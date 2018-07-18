@@ -1,4 +1,5 @@
-﻿using DocflowApp.Models;
+﻿using DocflowApp.Files;
+using DocflowApp.Models;
 using DocflowApp.Models.Filters;
 using DocflowApp.Models.Repositories;
 using Microsoft.AspNet.Identity;
@@ -12,9 +13,9 @@ namespace DocflowApp.Controllers
 {
     [Authorize]
     public class UserController : BaseController
-    {
-        public UserController(UserRepository userRepository): 
-            base(userRepository)
+    {        
+        public UserController(UserRepository userRepository, IFileProvider[] fileProviders) : 
+            base(userRepository, fileProviders)
         {
             this.userRepository = userRepository;
         }
@@ -40,6 +41,7 @@ namespace DocflowApp.Controllers
                 var res = UserManager.CreateAsync(model.Entity, model.Password);
                 if (res.Result == IdentityResult.Success)
                 {
+                    GetFileProvider().Save(model.Entity.Avatar);
                     return RedirectToAction("Index");
                 }
             }

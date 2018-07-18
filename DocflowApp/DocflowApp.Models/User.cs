@@ -30,5 +30,8 @@ namespace DocflowApp.Models
 
         [CreationAuthor]
         public virtual User CreationAuthor { get; set; }
+
+        [Display(Name = "Аватар")]
+        public virtual BinaryFile Avatar { get; set; }
     }
 }

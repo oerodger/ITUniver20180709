@@ -200,6 +200,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Files\BinaryFileModelBinder.cs" />
+    <Compile Include="Files\DbFileProvider.cs" />
+    <Compile Include="Files\IFileProvider.cs" />
+    <Compile Include="Files\StreamHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,6 +271,8 @@
     <Content Include="Views\Shared\SortLink.cshtml" />
     <Content Include="Views\User\Filter.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BinaryFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BinaryFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
