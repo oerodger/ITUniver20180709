@@ -44,5 +44,16 @@ namespace DocflowApp.Extensions
                 LinkText = linkText
             });
         }
+
+        public static bool IsImage(this HtmlHelper html, BinaryFile file)
+        {
+            if (string.IsNullOrEmpty(file.ContentType))
+            {
+                return false;
+            }
+            return file.ContentType.Contains("bmp") ||
+                file.ContentType.Contains("jpeg") ||
+                file.ContentType.Contains("png");          
+        }
     }
 }

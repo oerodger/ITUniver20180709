@@ -1,0 +1,59 @@
+﻿@model DocflowApp.Models.UserViewModel
+
+@{
+    ViewBag.Title = Model.Entity.UserName;
+}
+
+<h2></h2>
+
+<div>
+    <h4>@(!string.IsNullOrEmpty(Model.Entity.FIO) ? Model.Entity.FIO : Model.Entity.UserName)</h4>
+    <hr />
+    <table>
+        <tr>
+            <td style="width:100px;">
+                @Html.DisplayFor(m => m.Entity.Avatar, new { width = "96px" })
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Entity.UserName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Entity.UserName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Entity.FIO)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Entity.FIO)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Entity.WorkStartDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Entity.WorkStartDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Entity.CreationAuthor)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Entity.CreationAuthor)
+                    </dd>
+
+                </dl>
+            </td>
+        </tr>
+    </table>
+    
+</div>
+<p>
+   @Html.ActionLink("Назад к списку", "Index")
+</p>

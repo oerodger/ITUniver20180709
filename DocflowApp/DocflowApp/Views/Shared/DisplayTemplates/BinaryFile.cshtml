@@ -1,6 +1,15 @@
-﻿@model DocflowApp.Models.BinaryFile
+﻿@using DocflowApp.Extensions
+@model DocflowApp.Models.BinaryFile
 
 @if (Model != null)
 {
-    @Model.Name
+    var width = ViewData["width"];
+    if (Html.IsImage(Model))
+    {       
+       <img alt="" src="@Url.Action("Download", "BinaryFile", new { id = Model.Id }, null)" style="@(width != null ? "width:" + width : "")" />
+    }
+    else
+    {
+        @Html.ActionLink(Model.Name, "Download", "BinaryFile", new { id = Model.Id }, new { style = width != null ? "width:" + width : "" })
+    }
 }

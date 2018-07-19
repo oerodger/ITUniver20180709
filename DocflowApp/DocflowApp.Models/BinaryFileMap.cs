@@ -15,6 +15,8 @@ namespace DocflowApp.Models
             Map(f => f.Name);
             Map(f => f.CreationDate);
             References(f => f.CreationAuthor);
+            Map(f => f.ContentType);
+            
         }
     }
 }

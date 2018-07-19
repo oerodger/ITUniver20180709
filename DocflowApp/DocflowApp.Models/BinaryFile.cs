@@ -21,6 +21,8 @@ namespace DocflowApp.Models
         [CreationAuthor]
         public virtual User CreationAuthor { get; set; }
 
+        public virtual string ContentType { get; set; }
+
         public virtual HttpPostedFileBase PostedFile { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace DocflowApp.Files
             return new BinaryFile
             {
                 Name = postedFile.FileName,
+                ContentType = postedFile.ContentType,
                 PostedFile = postedFile
             };
         }
