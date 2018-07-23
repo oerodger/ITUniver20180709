@@ -27,6 +27,9 @@ using DocflowApp.Models.Listeners;
 using NHibernate.Event;
 using DocflowApp.Models.Autofac;
 using DocflowApp.Files;
+using Autofac.Extras.NHibernate.Bytecode;
+using NHibernate.Type;
+using NHibernate.Bytecode;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace DocflowApp.App_Start
@@ -64,8 +67,7 @@ namespace DocflowApp.App_Start
                 {
                     b = b.As(inter);
                 }
-            }
-
+            }            
             builder.Register(x =>
             {
                 var cfg = Fluently.Configure()
@@ -86,8 +88,8 @@ namespace DocflowApp.App_Start
             }).As<ISessionFactory>().SingleInstance();
             builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>()
-                .InstancePerRequest()
-                .InstancePerDependency();
+                .InstancePerRequest().InstancePerLifetimeScope();
+                
 
             foreach (var type in modelsAssembly.GetTypes())
             {
@@ -113,8 +115,11 @@ namespace DocflowApp.App_Start
             builder.RegisterModule(new AutofacWebTypesModule());
             var container = builder.Build();
 
+            NHibernate.Cfg.Environment.BytecodeProvider =
+            new AutofacBytecodeProvider(container, new DefaultProxyFactoryFactory(), new DefaultCollectionTypeFactory());
             Locator.SetImpl(new AutofacLocatorImpl(container));
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
             app.UseAutofacMiddleware(container);
 
             app.CreatePerOwinContext(() => 

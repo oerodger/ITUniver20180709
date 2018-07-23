@@ -39,7 +39,7 @@ namespace DocflowApp.Files
 
         public void Save(BinaryFile file)
         {
-            if (file.PostedFile != null && file.PostedFile.ContentLength > 0)
+            if (file != null && file.PostedFile != null && file.PostedFile.ContentLength > 0)
             {
                 var content = new BinaryFileContent
                 {

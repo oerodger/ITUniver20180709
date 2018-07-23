@@ -24,7 +24,7 @@ namespace DocflowApp.Models.Repositories
 
         public virtual T Load(long id)
         {
-            return session.Load<T>(id);
+            return session.Get<T>(id);
         }
 
         public virtual void Save(T entity)
